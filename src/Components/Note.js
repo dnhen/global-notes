@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import '../Styles/Note.css';
 
-function Note( { incrState, details } ) {
+function Note( { incrState, details, deleteNote, textChanged } ) {
   const [diffX, setDiffX] = useState(0);
   const [diffY, setDiffY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -48,10 +48,10 @@ function Note( { incrState, details } ) {
     <div className="note" style={style} onMouseDown={dragStart} onMouseMove={currentlyDragging} onMouseUp={dragEnd}>
       <div className="header">
         <p>{details.name}</p>
-        <p>DEL</p>
+        <p onClick={() => deleteNote(details.time)}>DEL</p>
       </div>
       <div className="content">
-        <textarea placeholder="Enter text here..." defaultValue={details.text} />
+        <textarea id={details.time} placeholder="Enter text here..." defaultValue={details.text} onInput={() => textChanged({id: details.id, name: details.name, text: document.getElementById(details.time).value}, details.time)} />
       </div>
     </div>
   );

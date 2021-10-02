@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { onSnapshot, collection, addDoc } from '@firebase/firestore';
+import { onSnapshot, collection, setDoc, doc, deleteDoc } from '@firebase/firestore';
 import db from '../Firebase';
 
 import '../Styles/Canvas.css';
@@ -15,22 +15,46 @@ function Canvas() {
     }
   ), []);
 
+  // When user clicks add button
   const createNote = async () => {
-    const collectionRef = collection(db, "notes");
+    const date = "" + Date.now();
+    const docRef = doc(db, "notes", date);
     const payload = {
-      id: notes.length,
-      name: "Note Name " + notes.length,
-      text: ""
+      id: notes.length === 0 ? 0 : notes[notes.length - 1].id + 1,
+      name: notes.length === 0 ? "Note Name 0" : "Note Name " + (parseInt(notes[notes.length - 1].id) + 1),
+      text: "",
+      time: date
     };
 
-    await addDoc(collectionRef, payload);
+    await setDoc(docRef, payload);
+  }
+
+  // When user clicks delete button
+  const deleteNote = async (id) => {
+    if(window.confirm("Are you sure you want to delete this note?")){
+      const docRef = doc(db, "notes", id);
+      await deleteDoc(docRef);
+    }
+  }
+
+  // When a user types in a text box
+  const textChanged = async (data, id) => {
+    const docRef = doc(db, "notes", id);
+    const payload = {
+      id: data.id,
+      name: data.name,
+      text: data.text,
+      time: id
+    };
+
+    await setDoc(docRef, payload);
   }
 
   return (
     <div className="canvas">
       <button onClick={createNote}>Add!</button>
       {notes.map((details, i) => {
-        return <Note incrState={{incr: incr, setIncr: setIncr}} details={details} key={i} />
+        return <Note incrState={{incr: incr, setIncr: setIncr}} details={details} deleteNote={deleteNote} textChanged={textChanged} key={i} />
       })}
     </div>
   );
