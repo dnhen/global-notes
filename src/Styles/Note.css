@@ -1,0 +1,29 @@
+.note {
+  width: 300px;
+  position: absolute;
+}
+
+.note .header {
+  padding: 0 10px;
+  height: 40px;
+  background-color: #e0d72a;
+  line-height: 40px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.note .content {
+  height: 240px;
+  padding: 10px;
+  background-color: #FFF740;
+}
+
+.note .content textarea {
+  width: 100%;
+  height: 100%;
+  background-color: #00000000;
+  border: none;
+  outline: none;
+  resize: none;
+}
