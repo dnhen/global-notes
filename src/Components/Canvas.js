@@ -10,7 +10,7 @@ function Canvas() {
     let newNotes = [...notes, {
       id: notes.length,
       name: "Note Name " + notes.length,
-      text: "Enter text here..."
+      text: ""
     }];
 
     setNotes(newNotes);
@@ -21,8 +21,8 @@ function Canvas() {
   return (
     <div className="canvas">
       <button onClick={createNote}>Add!</button>
-      {notes.map((_, i) => {
-        return <Note incrState={{incr: incr, setIncr: setIncr}} key={i} />
+      {notes.map((details, i) => {
+        return <Note incrState={{incr: incr, setIncr: setIncr}} details={details} key={i} />
       })}
     </div>
   );
