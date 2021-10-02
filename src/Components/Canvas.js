@@ -1,21 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { onSnapshot, collection, addDoc } from '@firebase/firestore';
+import db from '../Firebase';
+
 import '../Styles/Canvas.css';
 import Note from './Note';
 
 function Canvas() {
   const [incr, setIncr] = useState(0);
-  const [notes, setNotes] = useState([{id: 0, name: "Note Name 0", text: "Enter text here..."}]);
+  const [notes, setNotes] = useState([]);
 
-  const createNote = () => {
-    let newNotes = [...notes, {
+  useEffect(() =>
+    onSnapshot(collection(db, "notes"), (snapshot) => {
+      setNotes(snapshot.docs.map(doc => doc.data()))
+    }
+  ), []);
+
+  const createNote = async () => {
+    const collectionRef = collection(db, "notes");
+    const payload = {
       id: notes.length,
       name: "Note Name " + notes.length,
       text: ""
-    }];
+    };
 
-    setNotes(newNotes);
-
-    console.log(newNotes);
+    await addDoc(collectionRef, payload);
   }
 
   return (

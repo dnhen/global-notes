@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import '../Styles/Note.css';
 
 function Note( { incrState, details } ) {
