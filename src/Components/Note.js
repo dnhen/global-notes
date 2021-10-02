@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import '../Styles/Note.css';
 
-function Note() {
+function Note( { incrState } ) {
   const [diffX, setDiffX] = useState(0);
   const [diffY, setDiffY] = useState(0);
   const [dragging, setDragging] = useState(false);
-  const [pos, setPos] = useState({});
+  const [style, setStyle] = useState({});
 
   // When the user starts dragging a note
   const dragStart = (e) => {
@@ -22,24 +22,29 @@ function Note() {
 
       // check that the note isnt out of screen bounds
       if(left >= 0 && left <= window.innerWidth - 300 && top >= 0 && top <= window.innerHeight - 300){
-        setPos({
+        setStyle({
           left: left,
-          top: top
+          top: top,
+          zIndex: incrState.incr // move note on top of others
         });
       }
-
-      console.log(left);
-      console.log(top);
     }
   }
 
   // When the user stops dragging a note
   const dragEnd = (e) => {
+    setStyle({
+      left: style.left,
+      top: style.top,
+      zIndex: incrState.incr
+    });
+
+    incrState.setIncr(incrState.incr + 1); // so the next note is on top when released
     setDragging(false);
   }
 
   return (
-    <div className="note" style={pos} onMouseDown={dragStart} onMouseMove={currentlyDragging} onMouseUp={dragEnd}>
+    <div className="note" style={style} onMouseDown={dragStart} onMouseMove={currentlyDragging} onMouseUp={dragEnd}>
       <div className="header">
         <p>Note Name</p>
         <p>DEL</p>

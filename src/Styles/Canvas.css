@@ -1,4 +1,15 @@
 .canvas {
   height: 100%;
-  background-color: #CECECE;
+  position: relative;
+}
+
+.touch .canvas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.touch .canvas .note {
+  margin: 10px;
+  position: relative;
 }
