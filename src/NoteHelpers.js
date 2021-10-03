@@ -1,17 +1,23 @@
 import db from './Firebase';
 import { setDoc, doc, deleteDoc } from '@firebase/firestore';
 
-// When user clicks add button
-const createNote = async () => {
-  const date = "" + Date.now();
-  const docRef = doc(db, "notes", date); // connect to notes collection
-  const payload = {
-    time: date,
-    name: "Note Name",
-    text: ""
-  };
+const MAX_NOTES = 10;
 
-  await setDoc(docRef, payload); // Add the doc to the firebase storage
+// When user clicks add button
+const createNote = async (numNotes) => {
+  if(numNotes < MAX_NOTES){
+    const date = "" + Date.now();
+    const docRef = doc(db, "notes", date); // connect to notes collection
+    const payload = {
+      time: date,
+      name: "Note Name",
+      text: ""
+    };
+
+    await setDoc(docRef, payload); // Add the doc to the firebase storage
+  } else {
+    alert("You have too many notes.\nDelete one to make a new note.\nMax notes: " + MAX_NOTES);
+  }
 }
 
 // When user clicks delete button
