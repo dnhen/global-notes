@@ -2,6 +2,8 @@ import db from './Firebase';
 import { setDoc, doc, deleteDoc } from '@firebase/firestore';
 
 const MAX_NOTES = 10;
+const MAX_NAME_LEN = 50;
+const MAX_TEXT_LEN = 10000;
 
 // When user clicks add button
 const createNote = async (numNotes) => {
@@ -10,7 +12,7 @@ const createNote = async (numNotes) => {
     const docRef = doc(db, "notes", date); // connect to notes collection
     const payload = {
       time: date,
-      name: "Note Name",
+      name: "New Note",
       text: ""
     };
 
@@ -30,14 +32,19 @@ const deleteNote = async (time) => {
 
 // When a user types in a text box
 const textChanged = async ({time, name, text}) => {
-  const docRef = doc(db, "notes", time); // find the doc with the ID as the same ID
-  const payload = { // create the new payload with the new text
-    time: time,
-    name: name,
-    text: text,
-  };
+  if(name.length < MAX_NAME_LEN && text.length < MAX_TEXT_LEN){
+    const docRef = doc(db, "notes", time); // find the doc with the ID as the same ID
+    const payload = { // create the new payload with the new text
+      time: time,
+      name: name,
+      text: text,
+    };
 
-  await setDoc(docRef, payload); // set to database
+    await setDoc(docRef, payload); // set to database
+  } else {
+    alert("The text is max length. If you need to keep noting, create a new note.");
+  }
+  
 }
 
 export {
