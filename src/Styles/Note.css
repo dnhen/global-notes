@@ -19,6 +19,10 @@
   width: 100%;
 }
 
+.note .header .delButton {
+  cursor: pointer;
+}
+
 .note .content {
   height: 240px;
   padding: 10px;

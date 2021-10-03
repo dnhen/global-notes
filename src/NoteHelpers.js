@@ -31,7 +31,9 @@ const deleteNote = async (time) => {
 }
 
 // When a user types in a text box
-const textChanged = async ({time, name, text}) => {
+const textChanged = async ({time, name, text, e}) => {
+  let cursorPos = e.target.selectionStart; // Get the position of the cursor
+
   if(name.length < MAX_NAME_LEN && text.length < MAX_TEXT_LEN){
     const docRef = doc(db, "notes", time); // find the doc with the ID as the same ID
     const payload = { // create the new payload with the new text
@@ -44,7 +46,10 @@ const textChanged = async ({time, name, text}) => {
   } else {
     alert("The text is max length. If you need to keep noting, create a new note.");
   }
-  
+
+  // Set the cursor back to where it was before the update
+  e.target.selectionStart = cursorPos;
+  e.target.selectionEnd = cursorPos;
 }
 
 export {
