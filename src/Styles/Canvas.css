@@ -1,15 +1,16 @@
 .canvas {
-  height: 100%;
+  height: calc(100vh - 40px);
   position: relative;
+  padding: 0 30px;
 }
 
-.touch .canvas {
+.canvas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.touch .canvas .note {
+.canvas .note {
   margin: 10px;
   position: relative;
 }

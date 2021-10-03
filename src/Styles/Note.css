@@ -13,6 +13,13 @@
   justify-content: space-between;
 }
 
+.note .header input {
+  background-color: #00000000;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
 .note .content {
   height: 240px;
   padding: 10px;

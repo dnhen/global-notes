@@ -1,6 +1,8 @@
 import './App.css';
+import { createNote } from './NoteHelpers.js';
 
 import Canvas from './Components/Canvas';
+import Menubar from './Components/Menubar';
 
 function App() {
   // Add a touch or no-touch class to the document to determine in CSS if device is touch screen or not (dragging doesnt work on touch screens)
@@ -9,6 +11,7 @@ function App() {
   return (
     <div className="app">
       <Canvas />
+      <Menubar createNote={createNote} />
     </div>
   );
 }
